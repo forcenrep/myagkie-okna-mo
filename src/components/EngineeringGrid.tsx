@@ -1,5 +1,6 @@
 import {
   CircleGauge,
+  ScanLine,
   Snowflake,
   Wrench,
 } from "lucide-react";
@@ -128,6 +129,18 @@ export function EngineeringGrid() {
           <strong>Фурнитура и крепления</strong>
           <p>Люверсы, поворотные скобы и ремни подбираются под конструкцию.</p>
         </div>
+      </motion.article>
+
+      <motion.article
+        className="engineering-card engineering-card-tint"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        whileHover={{ y: -5 }}
+      >
+        <div className="engineering-card-topline"><span>VISIBILITY / TINT</span><ScanLine size={19} aria-hidden="true" /></div>
+        <div className="tint-visual"><span>прозрачная</span><span>тонированная</span></div>
+        <div className="engineering-copy"><strong>Плёнка под ваш сценарий</strong><p>Прозрачная сохраняет максимум света, тонированная уменьшает блики и добавляет приватности.</p></div>
       </motion.article>
 
       <motion.article
