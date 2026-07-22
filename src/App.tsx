@@ -8,6 +8,7 @@ import { Hero } from "./components/Hero";
 import { Material } from "./components/Material";
 import { Process } from "./components/Process";
 import { Projects } from "./components/Projects";
+import { RealCases } from "./components/RealCases";
 import { Value } from "./components/Value";
 import { ServiceArea } from "./components/ServiceArea";
 import { LeadModal } from "./components/LeadModal";
@@ -23,6 +24,7 @@ export function App() {
         <Hero onLead={() => setLeadOpen(true)} />
         <Value />
         <Projects />
+        <RealCases />
         <ServiceArea />
         <Estimate onLead={() => setLeadOpen(true)} />
         <Material />

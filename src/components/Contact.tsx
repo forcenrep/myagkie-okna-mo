@@ -9,9 +9,9 @@ export function Contact({ onLead }: { onLead: () => void }) {
           <div className="contact-glare" aria-hidden="true" />
           <div className="contact-copy">
             <span className="section-kicker section-kicker-light">
-              Начнём с простого
+              Всегда на связи
             </span>
-            <h2>Покажите веранду — предложим решение</h2>
+            <h2>КОНТАКТЫ</h2>
             <p>
               Оставьте номер или пришлите фотографию. Подскажем по материалам,
               срокам и ориентировочной стоимости.

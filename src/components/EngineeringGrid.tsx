@@ -25,7 +25,7 @@ export function EngineeringGrid() {
         whileHover={{ y: -5 }}
       >
         <div className="engineering-card-topline">
-          <span>SPEC / PVC-700</span>
+          <span>Характеристики · ПВХ 700</span>
           <CircleGauge size={19} aria-hidden="true" />
         </div>
         <div className="engineering-photo-wrap engineering-film-photo">
@@ -62,7 +62,7 @@ export function EngineeringGrid() {
         whileHover={{ y: -5 }}
       >
         <div className="engineering-card-topline">
-          <span>CLIMATE TEST</span>
+          <span>Климатический тест</span>
           <Snowflake size={19} aria-hidden="true" />
         </div>
         <div className="frost-visual">
@@ -93,6 +93,7 @@ export function EngineeringGrid() {
         transition={{ delay: 0.12 }}
         whileHover={{ y: -5 }}
       >
+        <div className="engineering-card-topline"><span>Защита от солнца</span><span>УФ</span></div>
         <div className="engineering-photo-wrap engineering-sun-photo">
           <img
             src="/images/bright-sun.jpg"
@@ -115,7 +116,7 @@ export function EngineeringGrid() {
         whileHover={{ y: -5 }}
       >
         <div className="engineering-card-topline">
-          <span>FIXING SYSTEM</span>
+          <span>Система креплений</span>
           <Wrench size={19} aria-hidden="true" />
         </div>
         <div className="engineering-photo-wrap engineering-hardware-photo">
@@ -138,7 +139,7 @@ export function EngineeringGrid() {
         viewport={{ once: true, amount: 0.25 }}
         whileHover={{ y: -5 }}
       >
-        <div className="engineering-card-topline"><span>VISIBILITY / TINT</span><ScanLine size={19} aria-hidden="true" /></div>
+        <div className="engineering-card-topline"><span>Прозрачность · Тонировка</span><ScanLine size={19} aria-hidden="true" /></div>
         <div className="tint-visual"><span>прозрачная</span><span>тонированная</span></div>
         <div className="engineering-copy"><strong>Плёнка под ваш сценарий</strong><p>Прозрачная сохраняет максимум света, тонированная уменьшает блики и добавляет приватности.</p></div>
       </motion.article>
@@ -152,7 +153,7 @@ export function EngineeringGrid() {
       >
         <div className="color-copy">
           <div className="engineering-card-topline">
-            <span>FACADE MATCHING</span>
+            <span>Подбор под фасад</span>
           </div>
           <strong>Окантовка в цвет фасада</strong>
           <p>

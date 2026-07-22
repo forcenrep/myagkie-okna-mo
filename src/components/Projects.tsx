@@ -1,4 +1,4 @@
-import { ArrowUpRight, Clock3, FolderOpen, MapPin, Ruler } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { images } from "../data";
 import { Reveal } from "./Reveal";
 
@@ -33,18 +33,6 @@ export function Projects() {
               </figure>
             </Reveal>
           ))}
-        </div>
-        <div className="case-heading"><span className="section-kicker">Реальные кейсы</span><h3>От задачи — к готовому результату</h3></div>
-        <div className="case-folders">
-          {[
-            { title: "Терраса загородного дома", place: "Истринский район", size: "26 м²", time: "монтаж за 1 день", image: images.projects[0].src },
-            { title: "Веранда для круглого года", place: "Одинцовский район", size: "18 м²", time: "монтаж за 1 день", image: images.projects[1].src },
-            { title: "Садовая беседка", place: "Раменский район", size: "14 м²", time: "монтаж за 6 часов", image: images.projects[4].src },
-          ].map((item, index) => <Reveal className="case-folder" delay={index * .08} key={item.title}>
-            <div className="case-tab"><FolderOpen size={18} />Кейс {String(index + 1).padStart(2,"0")}</div>
-            <img src={item.image} alt={item.title} loading="lazy" />
-            <div className="case-info"><h4>{item.title}</h4><div><span><MapPin size={15}/>{item.place}</span><span><Ruler size={15}/>{item.size}</span><span><Clock3 size={15}/>{item.time}</span></div></div>
-          </Reveal>)}
         </div>
       </div>
     </section>
