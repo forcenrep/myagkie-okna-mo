@@ -1,14 +1,30 @@
-import {
-  CircleGauge,
-  Grip,
-  Layers,
-  LockKeyhole,
-  ScanLine,
-  ShieldCheck,
-  Snowflake,
-  Wrench,
-} from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowDownRight, CircleGauge, Grip, LockKeyhole, ShieldCheck, Snowflake, Sun, Wrench } from "lucide-react";
+import { useState } from "react";
+
+const materials = [
+  {
+    short: "ПВХ 700",
+    title: "Прозрачная ПВХ-плёнка",
+    description: "Плотное полотно для ежедневной уличной эксплуатации. Сохраняет обзор и стабильную геометрию проёма.",
+    facts: ["0,7 мм", "до −40 °C"],
+    visual: "pvc",
+  },
+  {
+    short: "Полиуретан",
+    title: "Полиуретановая плёнка",
+    description: "Более эластичный и износостойкий материал для объектов с повышенной нагрузкой и активным использованием.",
+    facts: ["эластичная", "износостойкая"],
+    visual: "polyurethane",
+  },
+  {
+    short: "Тонировка",
+    title: "Два уровня затемнения",
+    description: "Светлая тонировка смягчает блики, тёмная создаёт больше приватности без ощущения глухой стены.",
+    facts: ["светлая", "тёмная"],
+    visual: "tint",
+  },
+] as const;
 
 const colors = [
   { name: "Белый", value: "#f0eee6" },
@@ -20,203 +36,72 @@ const colors = [
   { name: "Тёмно-серый", value: "#3d4241" },
 ] as const;
 
+const hardware = [
+  { icon: Grip, label: "Молнии" },
+  { icon: LockKeyhole, label: "Замки" },
+  { icon: CircleGauge, label: "Люверсы" },
+  { icon: Wrench, label: "Поворотные скобы" },
+] as const;
+
 export function EngineeringGrid() {
+  const [activeMaterial, setActiveMaterial] = useState(0);
+  const material = materials[activeMaterial];
+
   return (
-    <div className="engineering-grid">
-      <motion.article
-        className="engineering-card engineering-card-thickness"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline">
-          <span>Характеристики · ПВХ 700</span>
-          <CircleGauge size={19} aria-hidden="true" />
+    <div className="engineering-experience">
+      <div className="material-lab">
+        <div className="material-stage">
+          <div className="material-stage-index">0{activeMaterial + 1}<span>/ 03</span></div>
+          <AnimatePresence mode="wait">
+            <motion.div className={`material-stage-visual material-stage-${material.visual}`} key={material.visual} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: .98 }} transition={{ duration: .45 }}>
+              {material.visual === "pvc" && <img src="/images/pvc-film.jpg" alt="Прозрачная ПВХ-плёнка в рулоне" />}
+              {material.visual === "polyurethane" && <div className="poly-sheet" aria-hidden="true"><i /><i /><span>ПУ</span></div>}
+              {material.visual === "tint" && <div className="tint-samples" aria-label="Светлая и тёмная тонировка"><span>Светлая</span><span>Тёмная</span></div>}
+            </motion.div>
+          </AnimatePresence>
+          <div className="material-stage-caption"><span>Материал / образец</span><strong>{material.short}</strong></div>
         </div>
-        <div className="engineering-photo-wrap engineering-film-photo">
-          <img
-            src="/images/pvc-film.jpg"
-            alt="Рулон прозрачной ПВХ-плёнки"
-            loading="lazy"
-          />
-          <motion.span
-            className="engineering-photo-badge"
-            initial={{ opacity: 0, scale: 0.82 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-          >
-            0,7 мм
-          </motion.span>
-        </div>
-        <div className="engineering-copy">
-          <strong>Плёнка 700 микрон</strong>
-          <p>
-            Плотное прозрачное полотно для уличной эксплуатации и стабильной
-            геометрии проёма.
-          </p>
-        </div>
-      </motion.article>
 
-      <motion.article
-        className="engineering-card engineering-card-frost"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.06 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline">
-          <span>Климатический тест</span>
-          <Snowflake size={19} aria-hidden="true" />
-        </div>
-        <div className="frost-visual">
-          <div className="temperature-scale" aria-hidden="true">
-            <motion.span
-              initial={{ height: "8%" }}
-              whileInView={{ height: "78%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.2 }}
-            />
-          </div>
-          <div>
-            <strong>−40 °C</strong>
-            <span>нижняя граница эксплуатации</span>
+        <div className="material-selector">
+          <span className="material-selector-kicker">Выберите материал</span>
+          <AnimatePresence mode="wait">
+            <motion.div key={material.title} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
+              <h3>{material.title}</h3><p>{material.description}</p>
+              <div className="material-facts">{material.facts.map((fact) => <span key={fact}>{fact}</span>)}</div>
+            </motion.div>
+          </AnimatePresence>
+          <div className="material-tabs">
+            {materials.map((item, index) => <button className={activeMaterial === index ? "is-active" : ""} type="button" onClick={() => setActiveMaterial(index)} key={item.short}><span>0{index + 1}</span><strong>{item.short}</strong><ArrowDownRight /></button>)}
           </div>
         </div>
-        <div className="engineering-copy">
-          <strong>Морозостойкость</strong>
-          <p>Полотно рассчитано на круглогодичное использование.</p>
-        </div>
-      </motion.article>
+      </div>
 
-      <motion.article
-        className="engineering-card engineering-card-uv"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.12 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline"><span>Защита от солнца</span><span>УФ</span></div>
-        <div className="engineering-photo-wrap engineering-sun-photo">
-          <img
-            src="/images/bright-sun.jpg"
-            alt="Яркое солнце в голубом небе"
-            loading="lazy"
-          />
-        </div>
-        <div className="engineering-copy">
-          <strong>УФ-стабилизатор</strong>
-          <p>Снижает риск помутнения и пожелтения материала на солнце.</p>
-        </div>
-      </motion.article>
+      <div className="engineering-spec-line" aria-label="Основные характеристики">
+        <div><Snowflake /><span>Рабочая температура</span><strong>до −40 °C</strong></div>
+        <div><CircleGauge /><span>Толщина ПВХ</span><strong>700 микрон</strong></div>
+        <div><Sun /><span>Солнечный свет</span><strong>УФ-стабилизатор</strong></div>
+        <div><ShieldCheck /><span>Эксплуатация</span><strong>круглый год</strong></div>
+      </div>
 
-      <motion.article
-        className="engineering-card engineering-card-hardware"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.18 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline">
-          <span>Система креплений</span>
-          <Wrench size={19} aria-hidden="true" />
-        </div>
-        <div className="engineering-photo-wrap engineering-hardware-photo">
-          <img
-            src="/images/window-hardware.png"
-            alt="Поворотные скобы для крепления мягких окон"
-            loading="lazy"
-          />
-        </div>
-        <div className="engineering-copy">
-          <strong>Фурнитура и крепления</strong>
-          <p>Люверсы, поворотные скобы и ремни подбираются под конструкцию.</p>
-        </div>
-      </motion.article>
+      <div className="engineering-assembly">
+        <section className="hardware-feature">
+          <div className="hardware-photo"><img src="/images/window-hardware.png" alt="Фурнитура для мягких окон" /><span>Комплектуем под конструкцию</span></div>
+          <div className="hardware-copy"><span className="engineering-label">Система открывания</span><h3>Фурнитура — это часть сценария</h3><p>Подбираем крепления не «по умолчанию», а под частоту открывания, материал основания и геометрию каждого проёма.</p><div className="hardware-options">{hardware.map(({ icon: Icon, label }) => <span key={label}><Icon />{label}</span>)}</div></div>
+        </section>
 
-      <motion.article
-        className="engineering-card engineering-card-polyurethane"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.2 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline"><span>Материал повышенной прочности</span><Layers size={19} aria-hidden="true" /></div>
-        <div className="polyurethane-visual" aria-hidden="true"><span>ПУ</span><i /><i /><i /></div>
-        <div className="engineering-copy"><strong>Полиуретановая плёнка</strong><p>Эластичный и износостойкий материал для объектов с повышенной нагрузкой.</p></div>
-      </motion.article>
+        <section className="mesh-feature">
+          <div className="mesh-copy"><span className="engineering-label">Проветривание и защита</span><h3>Антикошка</h3><p>Усиленная москитная сетка в двух цветах.</p></div>
+          <div className="mesh-swatch mesh-swatch-gray"><span>Серая</span></div>
+          <div className="mesh-swatch mesh-swatch-black"><span>Чёрная</span></div>
+        </section>
+      </div>
 
-      <motion.article
-        className="engineering-card engineering-card-tint"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline"><span>Прозрачность · Тонировка</span><ScanLine size={19} aria-hidden="true" /></div>
-        <div className="tint-visual"><span>прозрачная</span><span>светлая</span><span>тёмная</span></div>
-        <div className="engineering-copy"><strong>Два уровня затемнения</strong><p>Светлая тонировка уменьшает блики, тёмная добавляет больше приватности.</p></div>
-      </motion.article>
-
-      <motion.article
-        className="engineering-card engineering-card-accessories"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.24 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline"><span>Комплектация проёма</span><LockKeyhole size={19} aria-hidden="true" /></div>
-        <div className="accessory-list" aria-label="Варианты фурнитуры">
-          <span><Grip />Молнии</span><span><LockKeyhole />Замки</span><span><CircleGauge />Люверсы</span><span><Wrench />Скобы</span>
+      <section className="finish-studio">
+        <div className="finish-heading"><div><span className="engineering-label">Визуальная комплектация</span><h3>Окантовка в цвет фасада</h3></div><p>Семь вариантов — от светлых нейтральных до глубоких тёмных. Глянцевый коричневый выделен отражением света.</p></div>
+        <div className="finish-rack" aria-label="Доступные цвета окантовки">
+          {colors.map((color, index) => <motion.div className="finish-sample" whileHover={{ y: -12 }} transition={{ type: "spring", stiffness: 320, damping: 20 }} key={color.name}><span className={"glossy" in color && color.glossy ? "is-glossy" : ""} style={{ backgroundColor: color.value }}><i>0{index + 1}</i></span><small>{color.name}</small></motion.div>)}
         </div>
-        <div className="engineering-copy"><strong>Разнообразная фурнитура</strong><p>Подбираем молнии, замки, люверсы и крепления под способ открывания и конструкцию.</p></div>
-      </motion.article>
-
-      <motion.article
-        className="engineering-card engineering-card-colors"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.22 }}
-      >
-        <div className="color-copy">
-          <div className="engineering-card-topline">
-            <span>Подбор под фасад</span>
-          </div>
-          <strong>Окантовка в цвет фасада</strong>
-          <p>
-            Подбираем оттенок, чтобы мягкие окна стали частью архитектуры, а не
-            отдельной конструкцией.
-          </p>
-        </div>
-        <div className="color-swatches" aria-label="Доступные цвета окантовки">
-          {colors.map((color) => (
-            <div className="color-swatch" key={color.name}>
-              <span className={"glossy" in color && color.glossy ? "is-glossy" : ""} style={{ backgroundColor: color.value }} />
-              <small>{color.name}</small>
-            </div>
-          ))}
-        </div>
-      </motion.article>
-
-      <motion.article
-        className="engineering-card engineering-card-mesh"
-        initial={{ opacity: 0, y: 28 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ delay: 0.3 }}
-        whileHover={{ y: -5 }}
-      >
-        <div className="engineering-card-topline"><span>Защита от насекомых и когтей</span><ShieldCheck size={19} aria-hidden="true" /></div>
-        <div className="mesh-options" aria-label="Цвета москитной сетки антикошка"><span>Серая</span><span>Чёрная</span></div>
-        <div className="engineering-copy"><strong>Москитная сетка «Антикошка»</strong><p>Усиленная сетка в сером и чёрном цвете для проветривания и дополнительной защиты.</p></div>
-      </motion.article>
+      </section>
     </div>
   );
 }
