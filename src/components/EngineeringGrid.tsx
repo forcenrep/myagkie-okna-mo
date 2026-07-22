@@ -1,6 +1,10 @@
 import {
   CircleGauge,
+  Grip,
+  Layers,
+  LockKeyhole,
   ScanLine,
+  ShieldCheck,
   Snowflake,
   Wrench,
 } from "lucide-react";
@@ -9,9 +13,11 @@ import { motion } from "motion/react";
 const colors = [
   { name: "Белый", value: "#f0eee6" },
   { name: "Бежевый", value: "#cbb99c" },
-  { name: "Коричневый", value: "#665044" },
-  { name: "Графит", value: "#343b38" },
-  { name: "Зелёный", value: "#405948" },
+  { name: "Коричневый глянец", value: "#6f4b39", glossy: true },
+  { name: "Коричневый матовый", value: "#59443a" },
+  { name: "Светло-серый", value: "#b9bdba" },
+  { name: "Серый", value: "#777d7b" },
+  { name: "Тёмно-серый", value: "#3d4241" },
 ] as const;
 
 export function EngineeringGrid() {
@@ -133,6 +139,19 @@ export function EngineeringGrid() {
       </motion.article>
 
       <motion.article
+        className="engineering-card engineering-card-polyurethane"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ delay: 0.2 }}
+        whileHover={{ y: -5 }}
+      >
+        <div className="engineering-card-topline"><span>Материал повышенной прочности</span><Layers size={19} aria-hidden="true" /></div>
+        <div className="polyurethane-visual" aria-hidden="true"><span>ПУ</span><i /><i /><i /></div>
+        <div className="engineering-copy"><strong>Полиуретановая плёнка</strong><p>Эластичный и износостойкий материал для объектов с повышенной нагрузкой.</p></div>
+      </motion.article>
+
+      <motion.article
         className="engineering-card engineering-card-tint"
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -140,8 +159,23 @@ export function EngineeringGrid() {
         whileHover={{ y: -5 }}
       >
         <div className="engineering-card-topline"><span>Прозрачность · Тонировка</span><ScanLine size={19} aria-hidden="true" /></div>
-        <div className="tint-visual"><span>прозрачная</span><span>тонированная</span></div>
-        <div className="engineering-copy"><strong>Плёнка под ваш сценарий</strong><p>Прозрачная сохраняет максимум света, тонированная уменьшает блики и добавляет приватности.</p></div>
+        <div className="tint-visual"><span>прозрачная</span><span>светлая</span><span>тёмная</span></div>
+        <div className="engineering-copy"><strong>Два уровня затемнения</strong><p>Светлая тонировка уменьшает блики, тёмная добавляет больше приватности.</p></div>
+      </motion.article>
+
+      <motion.article
+        className="engineering-card engineering-card-accessories"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ delay: 0.24 }}
+        whileHover={{ y: -5 }}
+      >
+        <div className="engineering-card-topline"><span>Комплектация проёма</span><LockKeyhole size={19} aria-hidden="true" /></div>
+        <div className="accessory-list" aria-label="Варианты фурнитуры">
+          <span><Grip />Молнии</span><span><LockKeyhole />Замки</span><span><CircleGauge />Люверсы</span><span><Wrench />Скобы</span>
+        </div>
+        <div className="engineering-copy"><strong>Разнообразная фурнитура</strong><p>Подбираем молнии, замки, люверсы и крепления под способ открывания и конструкцию.</p></div>
       </motion.article>
 
       <motion.article
@@ -164,11 +198,24 @@ export function EngineeringGrid() {
         <div className="color-swatches" aria-label="Доступные цвета окантовки">
           {colors.map((color) => (
             <div className="color-swatch" key={color.name}>
-              <span style={{ backgroundColor: color.value }} />
+              <span className={"glossy" in color && color.glossy ? "is-glossy" : ""} style={{ backgroundColor: color.value }} />
               <small>{color.name}</small>
             </div>
           ))}
         </div>
+      </motion.article>
+
+      <motion.article
+        className="engineering-card engineering-card-mesh"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ delay: 0.3 }}
+        whileHover={{ y: -5 }}
+      >
+        <div className="engineering-card-topline"><span>Защита от насекомых и когтей</span><ShieldCheck size={19} aria-hidden="true" /></div>
+        <div className="mesh-options" aria-label="Цвета москитной сетки антикошка"><span>Серая</span><span>Чёрная</span></div>
+        <div className="engineering-copy"><strong>Москитная сетка «Антикошка»</strong><p>Усиленная сетка в сером и чёрном цвете для проветривания и дополнительной защиты.</p></div>
       </motion.article>
     </div>
   );
