@@ -18,6 +18,7 @@ export function LeadModal({ open, onClose }: { open: boolean; onClose: () => voi
   const submit = (event: FormEvent) => { event.preventDefault(); setSent(true); };
   const formatPhone = (value: string) => {
     let digits = value.replace(/\D/g, "");
+    if (digits === "8" || digits === "7") return "+7 (";
     if (digits.startsWith("8") || digits.startsWith("7")) digits = digits.slice(1);
     digits = digits.slice(0, 10);
     if (!digits) return "";
