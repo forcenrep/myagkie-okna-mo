@@ -27,7 +27,7 @@ const objectTypes = [
   { icon: CookingPot, label: "Летние кухни" },
 ] as const;
 
-export function Hero() {
+export function Hero({ onLead }: { onLead: () => void }) {
   return (
     <section className="hero section" id="top">
       <div className="container hero-grid">
@@ -56,7 +56,7 @@ export function Hero() {
           </p>
           <div className="hero-actions">
             <GlassButton
-              href="#contact"
+              onClick={onLead}
               icon={<ArrowUpRight size={18} aria-hidden="true" />}
             >
               Узнать стоимость

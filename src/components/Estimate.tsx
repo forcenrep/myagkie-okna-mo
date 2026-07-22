@@ -7,7 +7,7 @@ const factors = [
   { icon: Wrench, label: "Крепления и фурнитура" },
 ] as const;
 
-export function Estimate() {
+export function Estimate({ onLead }: { onLead: () => void }) {
   return (
     <section className="section estimate-section">
       <div className="container estimate-grid">
@@ -41,11 +41,11 @@ export function Estimate() {
             По снимку и примерным размерам подготовим ориентир по стоимости до
             выезда мастера.
           </p>
-          <a className="button button-light" href="#contact">
+          <button className="button button-light" type="button" onClick={onLead}>
             Получить расчёт
             <ArrowRight size={18} aria-hidden="true" />
-          </a>
-          <small>Без обязательств и навязчивых звонков</small>
+          </button>
+          <small>Фото можно приложить по желанию — так консультация будет точнее и быстрее</small>
         </Reveal>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { Menu, Phone, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const links = [
   { href: "#projects", label: "Наши работы" },
@@ -8,12 +8,20 @@ const links = [
   { href: "#faq", label: "Вопросы" },
 ] as const;
 
-export function Header() {
+export function Header({ onLead }: { onLead: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setCompact(window.scrollY > 48);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="site-header">
-      <div className="container header-inner glass-surface">
+    <header className={`site-header ${compact ? "is-compact" : ""}`}>
+      <div className="header-inner glass-surface">
         <a className="brand" href="#top" aria-label="Мягкие окна МО — наверх">
           <span className="brand-mark" aria-hidden="true">
             <span />
@@ -35,11 +43,11 @@ export function Header() {
         <div className="header-actions">
           <a className="phone-link" href="tel:+79267254858">
             <Phone size={16} aria-hidden="true" />
-            <span>+7 (926) 725-48-58</span>
+            <span><strong>+7 (926) 725-48-58</strong><small>Ежедневно, 09:00–19:00</small></span>
           </a>
-          <a className="button button-small" href="#contact">
+          <button className="button button-small" type="button" onClick={onLead}>
             Рассчитать
-          </a>
+          </button>
           <button
             className="menu-button"
             type="button"

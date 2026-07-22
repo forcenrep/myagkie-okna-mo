@@ -1,7 +1,7 @@
 import { ArrowUpRight, Clock3, Mail, MessageCircle, Phone } from "lucide-react";
 import { Reveal } from "./Reveal";
 
-export function Contact() {
+export function Contact({ onLead }: { onLead: () => void }) {
   return (
     <section className="section contact-section" id="contact">
       <div className="container">
@@ -27,22 +27,19 @@ export function Contact() {
               </a>
               <span>
                 <Clock3 size={18} aria-hidden="true" />
-                Ежедневно, 08:00–22:00
+                Ежедневно, 09:00–19:00
               </span>
             </div>
           </div>
 
-          <div className="contact-form" aria-label="Форма предварительного расчёта">
-            <label>
-              <span>Ваше имя</span>
-              <input type="text" placeholder="Например, Алексей" />
-            </label>
-            <label>
-              <span>Номер телефона</span>
-              <input type="tel" placeholder="+7 (___) ___-__-__" />
-            </label>
-            <button className="button button-light contact-button" type="button">
-              Получить расчёт
+          <div className="contact-form contact-choice" aria-label="Способы связи">
+            <span className="contact-choice-label">Как удобнее?</span>
+            <a className="contact-direct" href="tel:+79267254858">
+              <Phone size={21} aria-hidden="true" />
+              <span><strong>Позвонить самим</strong><small>Ответим с 09:00 до 19:00</small></span>
+            </a>
+            <button className="button button-light contact-button" type="button" onClick={onLead}>
+              Заказать звонок
               <ArrowUpRight size={18} aria-hidden="true" />
             </button>
             <div className="messenger-note">
