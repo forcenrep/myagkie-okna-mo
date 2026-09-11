@@ -32,21 +32,30 @@ const verandaPhotos = [
   }),
 ];
 
+const brickPhotos = [
+  { id: "brick-01", src: "/images/cases/brick/01.jpeg", title: "Кирпичная веранда с мягкими окнами — вид сбоку" },
+  { id: "brick-02", src: "/images/cases/brick/02.jpeg", title: "Кирпичная веранда с мягкими окнами — вход" },
+  { id: "brick-03", src: "/images/cases/brick/03.jpeg", title: "Кирпичная веранда с прозрачными мягкими окнами" },
+] as const;
+
 const folders = [
   {
     title: "Беседки",
     description: "Садовые беседки и открытые зоны отдыха",
+    preview: gazeboPhotos[0],
     photos: gazeboPhotos,
   },
   {
     title: "Веранды",
     description: "Веранды частных домов разных форм и размеров",
+    preview: verandaPhotos[0],
     photos: verandaPhotos,
   },
   {
     title: "Кирпичные строения",
     description: "Террасы и летние кухни в кирпичных зданиях",
-    photos: [images.projects[3]],
+    preview: images.projects[3],
+    photos: brickPhotos,
   },
 ] as const;
 
@@ -92,7 +101,7 @@ export function RealCases() {
               <button className="case-folder" type="button" onClick={() => openGallery(folder)} aria-label={`${folder.title}: открыть фотографии`}>
                 <span className="case-tab"><FolderOpen size={18} />Папка {String(folderIndex + 1).padStart(2, "0")}</span>
                 <span className="case-photo-stack" aria-hidden="true">
-                  {folder.photos.slice(0, 3).map((photo) => (
+                  {[folder.preview, ...folder.photos.filter((photo) => photo.id !== folder.preview.id).slice(0, 2)].map((photo) => (
                     <SiteImage src={photo.src} alt="" loading="lazy" key={photo.id} />
                   ))}
                 </span>
