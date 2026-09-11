@@ -1,9 +1,9 @@
+import { SiteImage } from "./SiteImage";
 import { Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const links = [
-  { href: "#projects", label: "Наши работы" },
-  { href: "#cases", label: "Реальные кейсы" },
+  { href: "#cases", label: "Наши работы" },
   { href: "#material", label: "Материалы" },
   { href: "#process", label: "Как работаем" },
   { href: "#faq", label: "Вопросы" },
@@ -25,7 +25,7 @@ export function Header({ onLead }: { onLead: () => void }) {
       <div className="header-inner glass-surface">
         <a className="brand" href="#top" aria-label="Мягкие окна МО — наверх">
           <span className="brand-mark" aria-hidden="true">
-            <span />
+            <SiteImage sizes="48px" src="/logo.png" alt="" />
           </span>
           <span>
             Мягкие окна

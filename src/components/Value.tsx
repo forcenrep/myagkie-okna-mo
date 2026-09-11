@@ -33,7 +33,7 @@ export function Value() {
         <Reveal className="section-heading split-heading">
           <div>
             <span className="section-kicker">Комфорт без капитального остекления</span>
-            <h2>Не закрываем веранду. Продлеваем её сезон.</h2>
+            <h2>За окном дождь и ветер. На веранде светло и спокойно.</h2>
           </div>
           <p>
             Мягкие окна незаметно защищают пространство и сворачиваются вверх,

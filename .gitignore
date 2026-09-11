@@ -5,3 +5,6 @@ dist/
 *.local
 
 .vercel
+.image-cache/
+public/optimized/
+src/image-manifest.json

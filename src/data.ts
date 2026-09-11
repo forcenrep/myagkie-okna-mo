@@ -8,7 +8,7 @@ export const images = {
   projects: [
     {
       id: "terrace-graphite",
-      src: "https://static.tildacdn.pub/tild3534-3139-4332-b066-353961383334/IMG_20260516_154612.png",
+      src: "/images/cases/verandas/31.jpeg",
       title: "Терраса в графитовом профиле",
       meta: "Мягкие окна по всему периметру",
     },

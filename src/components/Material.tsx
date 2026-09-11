@@ -1,3 +1,4 @@
+import { SiteImage } from "./SiteImage";
 import { images } from "../data";
 import { EngineeringGrid } from "./EngineeringGrid";
 import { Reveal } from "./Reveal";
@@ -5,8 +6,8 @@ import { Reveal } from "./Reveal";
 export function Material() {
   return (
     <section className="section material-section" id="material">
-      <img
-        className="material-background"
+      <SiteImage
+        className="material-background" sizes="100vw"
         src={images.lifestyle}
         alt=""
         aria-hidden="true"
@@ -15,7 +16,7 @@ export function Material() {
         <Reveal className="material-heading">
           <div>
             <span className="section-kicker">Инженерная часть</span>
-            <h2>Материал, фурнитура и точность изготовления</h2>
+            <h2>Материал и фурнитура</h2>
           </div>
           <p>
             ПВХ и полиуретановая плёнка, два уровня тонировки, усиленная

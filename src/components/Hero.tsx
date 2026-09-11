@@ -1,3 +1,4 @@
+import { SiteImage } from "./SiteImage";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -15,7 +16,7 @@ import { images } from "../data";
 import { GlassButton } from "./GlassButton";
 
 const facts = [
-  { icon: Layers3, value: "700", label: "микрон — плотность ПВХ" },
+  { icon: Layers3, value: "750", label: "микрон — плотность ПВХ" },
   { icon: Snowflake, value: "−40°", label: "рабочая температура" },
   { icon: Clock3, value: "1 день", label: "обычно занимает монтаж" },
 ] as const;
@@ -62,7 +63,7 @@ export function Hero({ onLead }: { onLead: () => void }) {
               Узнать стоимость
             </GlassButton>
             <GlassButton
-              href="#projects"
+              href="#cases"
               variant="secondary"
               icon={<ArrowDown size={17} aria-hidden="true" />}
             >
@@ -91,8 +92,8 @@ export function Hero({ onLead }: { onLead: () => void }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
         >
-          <img
-            src={images.hero}
+          <SiteImage
+            src={images.hero} loading="eager" fetchPriority="high"
             alt="Светлая веранда, защищённая прозрачными мягкими окнами"
           />
         </motion.div>

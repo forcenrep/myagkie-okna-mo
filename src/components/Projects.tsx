@@ -1,3 +1,4 @@
+import { SiteImage } from "./SiteImage";
 import { ArrowUpRight } from "lucide-react";
 import { images } from "../data";
 import { Reveal } from "./Reveal";
@@ -25,7 +26,7 @@ export function Projects() {
               key={project.id}
             >
               <figure>
-                <img src={project.src} alt={project.title} loading="lazy" />
+                <SiteImage src={project.src} alt={project.title} loading="lazy" />
                 <figcaption>
                   <span>{project.meta}</span>
                   <strong>{project.title}</strong>

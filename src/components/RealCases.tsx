@@ -1,24 +1,52 @@
+import { SiteImage } from "./SiteImage";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, FolderOpen, Images, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { images } from "../data";
 import { Reveal } from "./Reveal";
 
+const MotionSiteImage = motion.create(SiteImage);
+
+const gazeboPhotos = [
+  { id: "gazebo-preview", src: "/images/cases/gazebos/preview.jpeg", title: "Беседка с мягкими окнами и тёмной окантовкой" },
+  { id: "gazebo-01", src: "/images/cases/gazebos/01.jpeg", title: "Светлая деревянная беседка с мягкими окнами" },
+  { id: "gazebo-02", src: "/images/cases/gazebos/02.jpeg", title: "Белая садовая беседка с прозрачными окнами" },
+  { id: "gazebo-03", src: "/images/cases/gazebos/03.jpeg", title: "Красная беседка с мягкими окнами" },
+  { id: "gazebo-04", src: "/images/cases/gazebos/04.jpeg", title: "Большая белая беседка, вид спереди" },
+  { id: "gazebo-05", src: "/images/cases/gazebos/05.jpeg", title: "Большая белая беседка, вид сбоку" },
+  { id: "gazebo-06", src: "/images/cases/gazebos/06.jpeg", title: "Садовая беседка с коричневой плёнкой" },
+  { id: "gazebo-07", src: "/images/cases/gazebos/07.jpeg", title: "Компактная беседка с тёмной окантовкой" },
+  { id: "gazebo-08", src: "/images/cases/gazebos/08.jpeg", title: "Открытая беседка с мягкими окнами" },
+  { id: "gazebo-09", src: "/images/cases/gazebos/09.jpeg", title: "Белая беседка с тонированными окнами" },
+] as const;
+
+const verandaPhotos = [
+  { id: "veranda-preview", src: "/images/cases/verandas/preview.jpeg", title: "Веранда с мягкими окнами и тёмной окантовкой" },
+  ...Array.from({ length: 33 }, (_, index) => {
+    const number = String(index + 1).padStart(2, "0");
+    return {
+      id: `veranda-${number}`,
+      src: `/images/cases/verandas/${number}.jpeg`,
+      title: `Веранда с мягкими окнами — фото ${index + 1}`,
+    };
+  }),
+];
+
 const folders = [
   {
     title: "Беседки",
     description: "Садовые беседки и открытые зоны отдыха",
-    photos: [images.projects[4], images.projects[0], images.projects[2], images.projects[1]],
+    photos: gazeboPhotos,
   },
   {
     title: "Веранды",
     description: "Веранды частных домов разных форм и размеров",
-    photos: [images.projects[1], images.projects[0], images.projects[2], images.projects[4], images.projects[3]],
+    photos: verandaPhotos,
   },
   {
     title: "Кирпичные строения",
     description: "Террасы и летние кухни в кирпичных зданиях",
-    photos: [images.projects[3], images.projects[1], images.projects[0], images.projects[4]],
+    photos: [images.projects[3]],
   },
 ] as const;
 
@@ -61,11 +89,11 @@ export function RealCases() {
         <div className="case-folders">
           {folders.map((folder, folderIndex) => (
             <Reveal delay={folderIndex * 0.08} key={folder.title}>
-              <motion.button className="case-folder" type="button" onClick={() => openGallery(folder)} aria-label={`${folder.title}: открыть фотографии`} initial="rest" whileHover="hover" whileFocus="hover" whileTap={{ scale: 0.985 }}>
+              <button className="case-folder" type="button" onClick={() => openGallery(folder)} aria-label={`${folder.title}: открыть фотографии`}>
                 <span className="case-tab"><FolderOpen size={18} />Папка {String(folderIndex + 1).padStart(2, "0")}</span>
                 <span className="case-photo-stack" aria-hidden="true">
-                  {folder.photos.slice(0, 3).map((photo, index) => (
-                    <motion.img src={photo.src} alt="" loading="lazy" key={photo.id} variants={{ rest: { rotate: (index - 1) * 2, y: index * 5, x: 0 }, hover: { rotate: (index - 1) * 7, y: -10 - index * 3, x: (index - 1) * 20 } }} transition={{ type: "spring", stiffness: 260, damping: 22 }} />
+                  {folder.photos.slice(0, 3).map((photo) => (
+                    <SiteImage src={photo.src} alt="" loading="lazy" key={photo.id} />
                   ))}
                 </span>
                 <span className="case-info">
@@ -73,7 +101,7 @@ export function RealCases() {
                   <strong>{folder.title}</strong><small>{folder.description}</small>
                   <span className="case-open">Открыть папку <ArrowUpRight size={18} /></span>
                 </span>
-              </motion.button>
+              </button>
             </Reveal>
           ))}
         </div>
@@ -85,13 +113,15 @@ export function RealCases() {
             <motion.div className="case-gallery-modal" role="dialog" aria-modal="true" aria-label={`Фотографии: ${openFolder.title}`} initial={{ opacity: 0, y: 28, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 18, scale: 0.98 }}>
               <div className="case-gallery-head"><div><span>Реальные кейсы</span><h3>{openFolder.title}</h3></div><button type="button" onClick={closeGallery} aria-label="Закрыть галерею"><X /></button></div>
               <div className="case-gallery-stage">
-                <AnimatePresence mode="wait"><motion.img src={openFolder.photos[photoIndex].src} alt={openFolder.photos[photoIndex].title} key={openFolder.photos[photoIndex].id} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.24 }} /></AnimatePresence>
-                <button className="gallery-arrow gallery-arrow-left" type="button" onClick={showPrevious} aria-label="Предыдущее фото"><ChevronLeft /></button>
-                <button className="gallery-arrow gallery-arrow-right" type="button" onClick={showNext} aria-label="Следующее фото"><ChevronRight /></button>
+                <AnimatePresence mode="wait"><MotionSiteImage src={openFolder.photos[photoIndex].src} alt={openFolder.photos[photoIndex].title} key={openFolder.photos[photoIndex].id} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.24 }} /></AnimatePresence>
+                {openFolder.photos.length > 1 && <>
+                  <button className="gallery-arrow gallery-arrow-left" type="button" onClick={showPrevious} aria-label="Предыдущее фото"><ChevronLeft /></button>
+                  <button className="gallery-arrow gallery-arrow-right" type="button" onClick={showNext} aria-label="Следующее фото"><ChevronRight /></button>
+                </>}
                 <span className="gallery-counter">{photoIndex + 1} / {openFolder.photos.length}</span>
               </div>
               <div className="case-gallery-thumbs">
-                {openFolder.photos.map((photo, index) => <button className={index === photoIndex ? "is-active" : ""} type="button" onClick={() => setPhotoIndex(index)} key={photo.id} aria-label={`Открыть фото ${index + 1}`}><img src={photo.src} alt="" /></button>)}
+                {openFolder.photos.map((photo, index) => <button className={index === photoIndex ? "is-active" : ""} type="button" onClick={() => setPhotoIndex(index)} key={photo.id} aria-label={`Открыть фото ${index + 1}`}><SiteImage src={photo.src} alt="" /></button>)}
               </div>
             </motion.div>
           </motion.div>

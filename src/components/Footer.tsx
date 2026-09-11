@@ -1,10 +1,11 @@
+import { SiteImage } from "./SiteImage";
 export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-grid">
         <a className="brand footer-brand" href="#top">
           <span className="brand-mark brand-mark-dark" aria-hidden="true">
-            <span />
+            <SiteImage sizes="48px" src="/logo.png" alt="" loading="lazy" />
           </span>
           <span>
             Мягкие окна
@@ -16,7 +17,7 @@ export function Footer() {
           ключ.
         </p>
         <div className="footer-links">
-          <a href="#projects">Работы</a>
+          <a href="#cases">Работы</a>
           <a href="#material">Материалы</a>
           <a href="#process">Этапы</a>
           <a href="#contact">Контакты</a>
