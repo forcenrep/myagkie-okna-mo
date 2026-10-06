@@ -5,9 +5,9 @@ import { Phone } from "lucide-react";
 export function FloatingContacts() {
   return <aside className="floating-contacts" aria-label="Быстрая связь">
     <div className="floating-socials">
-      <a href="https://t.me/+79267254858" aria-label="Telegram"><SiTelegram /></a>
-      <a href="https://wa.me/79267254858" aria-label="WhatsApp"><SiWhatsapp /></a>
-      <a className="max-link" href="https://max.ru/" aria-label="Написать в MAX">
+      <a href="https://t.me/+79267254858" target="_blank" rel="noreferrer" aria-label="Telegram"><SiTelegram /></a>
+      <a href="https://wa.me/79267254858" target="_blank" rel="noreferrer" aria-label="WhatsApp"><SiWhatsapp /></a>
+      <a className="max-link" href="https://max.ru/" target="_blank" rel="noreferrer" aria-label="Открыть MAX">
         <SiteImage sizes="48px" src="/images/max-messenger.png" alt="" />
       </a>
     </div>

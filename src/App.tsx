@@ -12,10 +12,16 @@ import { Value } from "./components/Value";
 import { ServiceArea } from "./components/ServiceArea";
 import { LeadModal } from "./components/LeadModal";
 import { FloatingContacts } from "./components/FloatingContacts";
+import { CookieBanner } from "./components/CookieBanner";
+import { LegalPage } from "./components/LegalPage";
+import { Metrica } from "./components/Metrica";
+import { AdminPage } from "./components/AdminPage";
 
 export function App() {
   const [leadOpen, setLeadOpen] = useState(false);
-
+  const path = window.location.pathname.replace(/^\//, "");
+  if (["privacy", "consent", "cookies", "analytics-consent", "requisites"].includes(path)) return <><LegalPage type={path} /><CookieBanner /><Metrica /></>;
+  if (path.startsWith("admin")) return <AdminPage />;
   return (
     <>
       <Header onLead={() => setLeadOpen(true)} />
@@ -33,6 +39,8 @@ export function App() {
       <Footer />
       <FloatingContacts />
       <LeadModal open={leadOpen} onClose={() => setLeadOpen(false)} />
+      <CookieBanner />
+      <Metrica />
     </>
   );
 }

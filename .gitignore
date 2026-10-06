@@ -1,4 +1,6 @@
 node_modules/
+.env
+.local-data/
 dist/
 .vite-dev.log
 .vite-dev.err.log
@@ -8,3 +10,5 @@ dist/
 .image-cache/
 public/optimized/
 src/image-manifest.json
+.env*
+!.env.example

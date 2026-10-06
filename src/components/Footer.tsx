@@ -21,11 +21,17 @@ export function Footer() {
           <a href="#material">Материалы</a>
           <a href="#process">Этапы</a>
           <a href="#contact">Контакты</a>
+          <a href="/privacy">Политика</a>
+          <a href="/consent">Согласие</a>
+          <a href="/cookies">Cookie</a>
+          <a href="/analytics-consent">Аналитика</a>
+          <a href="/requisites">Реквизиты и контакты</a>
+          <button type="button" onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))}>Настройки cookie</button>
         </div>
       </div>
       <div className="container footer-bottom">
         <span>© 2026 Мягкие окна МО</span>
-        <span>Прототип сайта</span>
+        <span>ИП Струков Павел Александрович · ИНН 504813988660 · ОГРНИП 326508100587469</span>
       </div>
     </footer>
   );

@@ -29,6 +29,7 @@ export function Contact({ onLead }: { onLead: () => void }) {
                 <Clock3 size={18} aria-hidden="true" />
                 Ежедневно, 09:00–19:00
               </span>
+              <span>Адрес для письменных обращений: Московская область, г. Чехов, ул. Чехова, д. 37а, кв. 1</span>
             </div>
           </div>
 
