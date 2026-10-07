@@ -1,5 +1,5 @@
 export const siteConfig = {
-  siteUrl: import.meta.env.VITE_SITE_URL || "",
+  siteUrl: import.meta.env.VITE_SITE_URL || "https://мягкиеокна-мо.рф",
   collectionEnabled: import.meta.env.VITE_DATA_COLLECTION_ENABLED === "true",
   metricaId: import.meta.env.VITE_METRICA_ID || "",
   documentVersion: import.meta.env.VITE_DOCUMENT_VERSION || "DRAFT-1",
@@ -10,6 +10,9 @@ export const siteConfig = {
   operator: "ИП Струков Павел Александрович",
   inn: "504813988660",
   ogrnip: "326508100587469",
+  registrationDate: "30.09.2026",
+  taxRegistrationDate: "30.09.2026",
+  taxAuthority: "Межрайонная инспекция Федеральной налоговой службы № 11 по Московской области",
   address: "Московская область, г. Чехов, ул. Чехова, д. 37а, кв. 1",
   phone: "+7 (926) 725-48-58",
   phoneHref: "+79267254858",
