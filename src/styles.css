@@ -1395,6 +1395,36 @@ textarea {
   line-height: 1.5;
 }
 
+.footer-legal {
+  display: grid;
+  gap: 5px;
+}
+
+.back-to-top {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 18px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,.13);
+}
+
+.back-to-top svg {
+  width: 18px;
+  height: 18px;
+}
+
 /* Adapted effects: glass CTA, rain scene and restrained zoom gallery */
 .glass-button-wrap {
   position: relative;
@@ -3719,7 +3749,7 @@ body { font-size: 16px; }
 .finish-preview-caption { display:flex; align-items:center; gap:12px; padding:20px; border-top:1px solid #d9ddcf; color:#233b29; }
 .finish-preview-caption > span { width:22px; height:22px; border-radius:50%; border:1px solid #acb5a6; }
 .finish-instruction { display:flex; gap:16px; align-items:center; color:#40513f; font-size:18px; line-height:1.5; margin:0 0 24px; }
-.finish-instruction > span { font-size:48px; color:#68713c; }
+.finish-instruction > svg { width:32px; height:32px; flex:0 0 auto; color:#68713c; }
 .finish-color-options { display:grid; gap:8px; }
 .finish-color-options button { display:flex; align-items:center; gap:14px; width:100%; padding:12px 16px; border:1px solid #c7cebf; border-radius:14px; background:transparent; color:#334a38; cursor:pointer; text-align:left; transition:background .25s ease,border-color .25s ease; }
 .finish-color-options button[aria-pressed="true"] { background:#fff; border-color:#49654b; }
@@ -4411,23 +4441,33 @@ body { font-size: 16px; }
   }
 
   .finish-instruction {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    padding: 12px 13px;
+    border: 1px solid rgba(70,95,72,.28);
+    border-radius: 14px;
+    color: #28442f;
+    background: rgba(255,255,255,.62);
     font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
   }
 
-  .finish-instruction > span {
-    display: none;
+  .finish-instruction > svg {
+    display: block;
+    width: 24px;
+    height: 24px;
   }
 
   .finish-color-options {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
   }
 
   .finish-color-options button {
-    min-height: 48px;
-    justify-content: center;
-    padding: 8px;
+    min-height: 58px;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
   }
 
   .finish-color-options button > span:first-child {
@@ -4435,9 +4475,16 @@ body { font-size: 16px; }
     height: 28px;
   }
 
-  .finish-color-options strong,
+  .finish-color-options strong {
+    display: block;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
   .finish-selected {
-    display: none;
+    display: block;
+    margin-left: auto;
+    font-size: 12px;
   }
 
   .engineering-footnote {
@@ -4583,6 +4630,18 @@ body { font-size: 16px; }
     gap: 8px;
     margin-top: 28px;
     font-size: 12px;
+  }
+
+  .back-to-top {
+    width: 48px;
+    min-height: 48px;
+    justify-content: center;
+    align-self: flex-end;
+    padding: 0;
+  }
+
+  .back-to-top span {
+    display: none;
   }
 
   .floating-contacts {

@@ -17,7 +17,7 @@ export function Contact({ onLead }: { onLead: () => void }) {
               срокам и ориентировочной стоимости.
             </p>
             <div className="contact-links">
-              <a href="tel:+79267254858">
+              <a href="tel:+79267254858" target="_blank" rel="noreferrer">
                 <Phone size={18} aria-hidden="true" />
                 +7 (926) 725-48-58
               </a>
@@ -35,7 +35,7 @@ export function Contact({ onLead }: { onLead: () => void }) {
 
           <div className="contact-form contact-choice" aria-label="Способы связи">
             <span className="contact-choice-label">Как удобнее?</span>
-            <a className="contact-direct" href="tel:+79267254858">
+            <a className="contact-direct" href="tel:+79267254858" target="_blank" rel="noreferrer">
               <Phone size={21} aria-hidden="true" />
               <span><strong>Позвонить самим</strong><small>Ответим с 09:00 до 19:00</small></span>
             </a>

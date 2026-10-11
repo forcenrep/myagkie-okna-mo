@@ -42,7 +42,7 @@ export function Header({ onLead }: { onLead: () => void }) {
         </nav>
 
         <div className="header-actions">
-          <a className="phone-link" href="tel:+79267254858">
+          <a className="phone-link" href="tel:+79267254858" target="_blank" rel="noreferrer">
             <Phone size={16} aria-hidden="true" />
             <span><strong>+7 (926) 725-48-58</strong><small>Ежедневно, 09:00–19:00</small></span>
           </a>
@@ -71,7 +71,7 @@ export function Header({ onLead }: { onLead: () => void }) {
                 {link.label}
               </a>
             ))}
-            <a href="tel:+79267254858" onClick={() => setIsOpen(false)}>
+            <a href="tel:+79267254858" target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)}>
               +7 (926) 725-48-58
             </a>
           </nav>

@@ -13,7 +13,7 @@ export function Faq() {
             Если вашего вопроса нет в списке, позвоните — спокойно разберём
             особенности объекта.
           </p>
-          <a className="phone-large" href="tel:+79267254858">
+          <a className="phone-large" href="tel:+79267254858" target="_blank" rel="noreferrer">
             +7 (926) 725-48-58
           </a>
         </Reveal>

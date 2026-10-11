@@ -1,8 +1,7 @@
-import { X, CircleGauge, ShieldCheck, Snowflake, Sun } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { X, CircleGauge, MousePointerClick, ShieldCheck, Snowflake, Sun } from "lucide-react";
+import { useRef, useState } from "react";
 
 import { SiteImage } from "./SiteImage";
-import imageManifest from "../image-manifest.json";
 
 const materials = [
   {
@@ -42,17 +41,7 @@ const colors = [
 ] as const;
 
 const finishKeys = ["white", "beige", "brown-gloss", "brown-matte", "light-grey", "grey", "dark-grey"] as const;
-const imageAssets = imageManifest as Record<string, { variants: Array<{ width: number; src: string }> }>;
-const finishPhotos = finishKeys.map((key) =>
-  Object.keys(imageAssets).find((path) =>
-    path.startsWith("/images/finishes/") && path.split("/").pop()?.split(".")[0] === key,
-  ),
-);
-
-function finishVariant(source: string, targetWidth: number) {
-  const variants = imageAssets[source]?.variants ?? [];
-  return variants.find((variant) => variant.width >= targetWidth)?.src ?? variants.at(-1)?.src;
-}
+const finishPhotos = finishKeys.map((key) => `/images/finishes/${key}.jpeg`);
 
 const hardware = [
   {
@@ -94,40 +83,12 @@ const hardware = [
 export function EngineeringGrid() {
   const [selectedColor, setSelectedColor] = useState(0);
   const finishPhoto = finishPhotos[selectedColor];
-  const finishSection = useRef<HTMLElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const [detail, setDetail] = useState<{ title: string; image: string } | null>(null);
   const enlarge = (title: string, image: string) => {
     setDetail({ title, image });
     dialog.current?.showModal();
   };
-
-  useEffect(() => {
-    const section = finishSection.current;
-    if (!section) return;
-
-    const preload = () => {
-      const targetWidth = window.innerWidth <= 700 ? 640 : 960;
-      finishPhotos.forEach((source) => {
-        if (!source) return;
-        const src = finishVariant(source, targetWidth);
-        if (!src) return;
-        const image = new Image();
-        image.decoding = "async";
-        image.src = src;
-      });
-    };
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        preload();
-        observer.disconnect();
-      },
-      { rootMargin: "1200px 0px" },
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div className="engineering-experience">
@@ -182,7 +143,7 @@ export function EngineeringGrid() {
         <div className="catalog-dialog-head"><h3>{detail?.title}</h3><button type="button" onClick={() => dialog.current?.close()} aria-label="Закрыть фото"><X /></button></div>
         {detail && <SiteImage src={detail.image} alt={detail.title} sizes="90vw" loading="eager" />}
       </dialog>
-      <section className="finish-studio" ref={finishSection}>
+      <section className="finish-studio">
         <div className="finish-heading"><div><span className="engineering-label">Визуальная комплектация</span><h3>Окантовка в цвет фасада</h3></div><p>Семь вариантов — от светлых нейтральных до глубоких тёмных. Глянцевый коричневый выделен отражением света.</p></div>
         <div className="finish-configurator">
           <div className="finish-preview" aria-live="polite">
@@ -190,7 +151,7 @@ export function EngineeringGrid() {
             <div className="finish-preview-caption"><span style={{ background: colors[selectedColor].value }} />{colors[selectedColor].name}</div>
           </div>
           <div className="finish-picker">
-            <p className="finish-instruction"><span aria-hidden="true">↙</span> Выберите цвет — посмотрите, как он сочетается с фасадом</p>
+            <p className="finish-instruction"><MousePointerClick aria-hidden="true" /> <span>Нажмите на цвет — фото фасада изменится</span></p>
             <div className="finish-color-options" aria-label="Цвет окантовки">
               {colors.map((color, index) => <button type="button" aria-pressed={selectedColor === index} onClick={() => setSelectedColor(index)} key={color.name}><span style={{ background: color.value }} className={"glossy" in color ? "finish-gloss" : ""} /><strong>{color.name}</strong><span className="finish-selected" aria-hidden="true">{selectedColor === index ? "✓" : "→"}</span></button>)}
             </div>

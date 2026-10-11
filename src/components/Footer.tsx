@@ -1,4 +1,6 @@
 import { SiteImage } from "./SiteImage";
+import { ArrowUp } from "lucide-react";
+
 export function Footer() {
   return (
     <footer className="site-footer">
@@ -30,8 +32,14 @@ export function Footer() {
         </div>
       </div>
       <div className="container footer-bottom">
-        <span>© 2026 Мягкие окна МО</span>
-        <span>ИП Струков Павел Александрович · ИНН 504813988660 · ОГРНИП 326508100587469</span>
+        <div className="footer-legal">
+          <span>© 2026 Мягкие окна МО</span>
+          <span>ИП Струков Павел Александрович · ИНН 504813988660 · ОГРНИП 326508100587469</span>
+        </div>
+        <a className="back-to-top" href="#top" aria-label="Вернуться в начало страницы">
+          <ArrowUp aria-hidden="true" />
+          <span>Наверх</span>
+        </a>
       </div>
     </footer>
   );

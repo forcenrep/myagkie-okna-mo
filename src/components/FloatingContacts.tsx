@@ -11,6 +11,6 @@ export function FloatingContacts() {
         <SiteImage sizes="48px" src="/images/max-messenger.png" alt="" />
       </a>
     </div>
-    <a className="floating-call" href="tel:+79267254858"><span className="floating-phone-icon"><Phone size={20} /></span><span><strong>Бесплатный звонок</strong><small>Ежедневно · 09:00–19:00</small></span></a>
+    <a className="floating-call" href="tel:+79267254858" target="_blank" rel="noreferrer" aria-label="Позвонить по номеру +7 926 725-48-58"><span className="floating-phone-icon"><Phone size={20} /></span><span><strong>Бесплатный звонок</strong><small>Ежедневно · 09:00–19:00</small></span></a>
   </aside>;
 }
