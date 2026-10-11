@@ -4589,18 +4589,18 @@ body { font-size: 16px; }
     z-index: 60;
     right: auto;
     bottom: max(12px, env(safe-area-inset-bottom));
-    left: 50%;
+    left: 12px;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    transform: translateX(-50%);
+    justify-content: flex-start;
+    gap: 10px;
+    transform: none;
   }
 
   .floating-socials {
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 10px;
   }
 
   .floating-socials a {
