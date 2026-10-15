@@ -25,6 +25,7 @@ export function LeadModal({ open, onClose }: { open: boolean; onClose: () => voi
     event.preventDefault(); setStatus("");
     if (!siteConfig.collectionEnabled) { setStatus("Онлайн-заявки пока недоступны. Свяжитесь с нами по телефону."); return; }
     if (!consent) { setStatus("Для отправки отметьте согласие на обработку данных."); return; }
+    if (file && file.size > 4 * 1024 * 1024) { setStatus("Фото должно весить не более 4 МБ."); return; }
     const form = event.currentTarget; const data = new FormData(form);
     if (file) data.set("photo", file);
     setSending(true);
@@ -43,7 +44,7 @@ export function LeadModal({ open, onClose }: { open: boolean; onClose: () => voi
           {!siteConfig.collectionEnabled && <div className="collection-notice">Онлайн-заявки пока недоступны. Свяжитесь с нами по телефону: <a href="tel:+79267254858" target="_blank" rel="noreferrer">+7 (926) 725-48-58</a>.</div>}
           <label><span>Как к вам обращаться</span><input name="name" placeholder="Алексей" autoFocus /></label>
           <label><span>Номер телефона</span><input required name="phone" type="tel" inputMode="tel" autoComplete="tel" value={phone} onChange={(event) => setPhone(formatPhone(event.target.value))} placeholder="+7 (___) ___-__-__" /></label>
-          <label className="file-field"><Camera size={21} /><span><strong>{file ? file.name : "Добавить фото веранды"}</strong><small>Прикрепляйте только фото объекта без людей, документов и других лишних персональных данных. JPG, PNG или WebP, до 8 МБ.</small></span><span className="file-button">Выбрать фото</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp" onChange={e => setFile(e.target.files?.[0] || null)} /></label>
+          <label className="file-field"><Camera size={21} /><span><strong>{file ? file.name : "Добавить фото веранды"}</strong><small>Прикрепляйте только фото объекта без людей, документов и других лишних персональных данных. JPG, PNG или WebP, до 4 МБ.</small></span><span className="file-button">Выбрать фото</span><input type="file" name="photo" accept="image/jpeg,image/png,image/webp" onChange={e => setFile(e.target.files?.[0] || null)} /></label>
           <label className="consent-field"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /><span>Даю <a href="/consent" target="_blank">согласие на обработку персональных данных</a> для рассмотрения заявки и обратной связи. Отдельно доступна <a href="/privacy" target="_blank">Политика обработки персональных данных</a>.</span></label>
           <p className="privacy-note">Заявка предназначена для консультации и предварительного расчёта. Условия изготовления и монтажа согласовываются отдельно.</p>
           {status && <p className="form-status" role="alert">{status}</p>}
