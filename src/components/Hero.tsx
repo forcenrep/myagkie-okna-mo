@@ -14,6 +14,7 @@ import {
 import { motion } from "motion/react";
 import { images } from "../data";
 import { GlassButton } from "./GlassButton";
+import { QuickLeadForm } from "./QuickLeadForm";
 
 const facts = [
   { icon: Layers3, value: "750", label: "микрон — плотность ПВХ" },
@@ -96,6 +97,13 @@ export function Hero({ onLead }: { onLead: () => void }) {
             src={images.hero} loading="eager" fetchPriority="high"
             alt="Светлая веранда, защищённая прозрачными мягкими окнами"
           />
+          <div className="hero-quick-form">
+            <QuickLeadForm
+              formId="hero-quick"
+              title="Рассчитаем стоимость ваших окон"
+              description="Оставьте заявку — свяжемся и уточним детали."
+            />
+          </div>
         </motion.div>
       </div>
       <div className="container object-types" aria-label="Типы объектов">

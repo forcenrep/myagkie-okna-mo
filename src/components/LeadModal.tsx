@@ -2,6 +2,7 @@ import { ArrowRight, Camera, Check, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { FormEvent, useEffect, useState } from "react";
 import { siteConfig } from "../config";
+import { formatPhone, submitLead } from "../lib/leads";
 
 export function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [sent, setSent] = useState(false);
@@ -25,30 +26,13 @@ export function LeadModal({ open, onClose }: { open: boolean; onClose: () => voi
     if (!siteConfig.collectionEnabled) { setStatus("Онлайн-заявки пока недоступны. Свяжитесь с нами по телефону."); return; }
     if (!consent) { setStatus("Для отправки отметьте согласие на обработку данных."); return; }
     const form = event.currentTarget; const data = new FormData(form);
-    data.set("consent", "true"); data.set("consentVersion", siteConfig.consentVersion); data.set("formId", "lead-modal");
     if (file) data.set("photo", file);
     setSending(true);
     try {
-      const response = await fetch("/api/leads", { method: "POST", body: data, headers: { "Idempotency-Key": crypto.randomUUID() } });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(result.error || "Не удалось отправить заявку");
+      await submitLead(data, "lead-modal");
       setSent(true);
-      window.dispatchEvent(new CustomEvent("lead-submit-success"));
     } catch (error) { setStatus(error instanceof Error ? error.message : "Не удалось отправить заявку"); }
     finally { setSending(false); }
-  };
-  const formatPhone = (value: string) => {
-    let digits = value.replace(/\D/g, "");
-    if (digits === "8" || digits === "7") return "+7 (";
-    if (digits.startsWith("8") || digits.startsWith("7")) digits = digits.slice(1);
-    digits = digits.slice(0, 10);
-    if (!digits) return "";
-    let result = `+7 (${digits.slice(0, 3)}`;
-    if (digits.length >= 3) result += ")";
-    if (digits.length > 3) result += ` ${digits.slice(3, 6)}`;
-    if (digits.length > 6) result += `-${digits.slice(6, 8)}`;
-    if (digits.length > 8) result += `-${digits.slice(8, 10)}`;
-    return result;
   };
   return <AnimatePresence>{open && <motion.div className="modal-backdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onMouseDown={(e) => e.target === e.currentTarget && close()}>
     <motion.div className={`lead-modal ${sent ? "is-sent" : ""}`} role="dialog" aria-modal="true" aria-label="Заказать консультацию" initial={{opacity:0,y:30,scale:.96}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:20,scale:.97}}>

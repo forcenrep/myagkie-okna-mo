@@ -11,6 +11,7 @@ import { RealCases } from "./components/RealCases";
 import { Value } from "./components/Value";
 import { ServiceArea } from "./components/ServiceArea";
 import { LeadModal } from "./components/LeadModal";
+import { LeadNudges } from "./components/LeadNudges";
 import { FloatingContacts } from "./components/FloatingContacts";
 import { CookieBanner } from "./components/CookieBanner";
 import { LegalPage } from "./components/LegalPage";
@@ -39,6 +40,7 @@ export function App() {
       <Footer />
       <FloatingContacts />
       <LeadModal open={leadOpen} onClose={() => setLeadOpen(false)} />
+      <LeadNudges leadModalOpen={leadOpen} />
       <CookieBanner />
       <Metrica />
     </>
