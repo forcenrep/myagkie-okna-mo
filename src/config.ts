@@ -1,6 +1,6 @@
 export const siteConfig = {
   siteUrl: import.meta.env.VITE_SITE_URL || "https://мягкиеокна-мо.рф",
-  collectionEnabled: import.meta.env.VITE_DATA_COLLECTION_ENABLED === "true",
+  collectionEnabled: import.meta.env.VITE_DATA_COLLECTION_ENABLED !== "false",
   metricaId: import.meta.env.VITE_METRICA_ID || "",
   documentVersion: import.meta.env.VITE_DOCUMENT_VERSION || "DRAFT-1",
   documentDate: import.meta.env.VITE_DOCUMENT_DATE || "Не утверждено",
