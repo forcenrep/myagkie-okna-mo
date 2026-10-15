@@ -47,25 +47,29 @@ app.post("/api/leads", originGuard, upload.single("photo"), async (req, res) => 
 const html = (value: unknown) => String(value ?? "").replace(/[&<>]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[char]!);
 async function deliverTelegramLead(id: string) {
   if (process.env.TELEGRAM_FULL_LEADS_ENABLED !== "true") return;
-  const token = process.env.TELEGRAM_BOT_TOKEN; const chat = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chat) return;
+  const token = process.env.TELEGRAM_BOT_TOKEN; const chats = [...new Set(String(process.env.TELEGRAM_CHAT_IDS || process.env.TELEGRAM_CHAT_ID || "").split(",").map(value => value.trim()).filter(Boolean))];
+  if (!token || !chats.length) return;
   const lead = db.prepare("SELECT id,name,phone,photo_name,created_at FROM leads WHERE id=?").get(id) as { id: string; name?: string; phone: string; photo_name?: string; created_at: string } | undefined;
   const delivery = db.prepare("SELECT attempts,status FROM telegram_delivery WHERE lead_id=?").get(id) as { attempts: number; status: string } | undefined;
   if (!lead || !delivery || delivery.status === "sent") return;
   const caption = `<b>Новая заявка с сайта</b>\n\n<b>Имя:</b> ${html(lead.name || "не указано")}\n<b>Телефон:</b> <code>${html(lead.phone)}</code>\n<b>Получена:</b> ${html(new Date(lead.created_at).toLocaleString("ru-RU", { timeZone: "Europe/Moscow" }))} МСК`;
   const apiBase = (process.env.TELEGRAM_API_BASE || "https://api.telegram.org").replace(/\/$/, "");
   try {
-    let response: Response;
-    if (lead.photo_name) {
-      const body = new FormData(); body.set("chat_id", chat); body.set("caption", caption); body.set("parse_mode", "HTML"); body.set("protect_content", "true");
-      const bytes = await sharp(path.join(uploadDir, path.basename(lead.photo_name))).jpeg({ quality: 88 }).toBuffer(); body.set("photo", new Blob([bytes], { type: "image/jpeg" }), "object.jpg");
-      response = await fetch(`${apiBase}/bot${token}/sendPhoto`, { method: "POST", body, signal: AbortSignal.timeout(15_000) });
-    } else {
-      response = await fetch(`${apiBase}/bot${token}/sendMessage`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chat_id: chat, text: caption, parse_mode: "HTML", protect_content: true }), signal: AbortSignal.timeout(15_000) });
-    }
-    const result = await response.json().catch(() => ({})) as { ok?: boolean; result?: { message_id?: number }; description?: string };
-    if (!response.ok || !result.ok) throw new Error(result.description || `Telegram HTTP ${response.status}`);
-    db.prepare("UPDATE telegram_delivery SET status='sent',attempts=attempts+1,sent_at=?,message_id=?,last_error=NULL WHERE lead_id=?").run(now(), result.result?.message_id || null, id);
+    const photoBytes = lead.photo_name ? await sharp(path.join(uploadDir, path.basename(lead.photo_name))).jpeg({ quality: 88 }).toBuffer() : null;
+    const deliveries = await Promise.all(chats.map(async chat => {
+      let response: Response;
+      if (photoBytes) {
+        const body = new FormData(); body.set("chat_id", chat); body.set("caption", caption); body.set("parse_mode", "HTML"); body.set("protect_content", "true"); body.set("photo", new Blob([photoBytes], { type: "image/jpeg" }), "object.jpg");
+        response = await fetch(`${apiBase}/bot${token}/sendPhoto`, { method: "POST", body, signal: AbortSignal.timeout(15_000) });
+      } else {
+        response = await fetch(`${apiBase}/bot${token}/sendMessage`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chat_id: chat, text: caption, parse_mode: "HTML", protect_content: true }), signal: AbortSignal.timeout(15_000) });
+      }
+      const result = await response.json().catch(() => ({})) as { ok?: boolean; result?: { message_id?: number }; description?: string };
+      if (!response.ok || !result.ok) console.error("Telegram recipient delivery failed", response.status, result.description || "Unknown error");
+      return response.ok && result.ok ? result.result?.message_id || null : null;
+    }));
+    if (!deliveries.some(messageId => messageId !== null)) throw new Error("Telegram delivery failed for all recipients");
+    db.prepare("UPDATE telegram_delivery SET status='sent',attempts=attempts+1,sent_at=?,message_id=?,last_error=NULL WHERE lead_id=?").run(now(), deliveries.find(messageId => messageId !== null) || null, id);
   } catch (error) {
     const attempts = delivery.attempts + 1; const delayMinutes = Math.min(60, 2 ** Math.min(attempts, 6));
     db.prepare("UPDATE telegram_delivery SET status=?,attempts=?,next_attempt=?,last_error=? WHERE lead_id=?").run(attempts >= 10 ? "failed" : "pending", attempts, new Date(Date.now() + delayMinutes * 60_000).toISOString(), String(error instanceof Error ? error.message : error).slice(0, 300), id);
